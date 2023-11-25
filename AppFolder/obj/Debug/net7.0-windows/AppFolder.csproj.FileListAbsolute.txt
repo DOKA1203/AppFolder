@@ -60,3 +60,4 @@ D:\DokaLab\AppFolder\AppFolder\obj\Debug\net7.0-windows\Interop.IWshRuntimeLibra
 D:\DokaLab\AppFolder\AppFolder\obj\Debug\net7.0-windows\AppFolder.csproj.ResolveComReference.cache
 D:\DokaLab\AppFolder\AppFolder\obj\Debug\net7.0-windows\Folder.baml
 D:\DokaLab\AppFolder\AppFolder\obj\Debug\net7.0-windows\Folder.g.cs
+D:\DokaLab\AppFolder\AppFolder\obj\Debug\net7.0-windows\AppFolder.sourcelink.json

@@ -17,7 +17,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Border CornerRadius="25" BorderBrush="Black" BorderThickness="2" Padding="6" Background="Gray">  
+    <Border CornerRadius="25" BorderBrush="Gray" BorderThickness="2" Padding="6" Background="Gray">  
         <Grid>  
             
         </Grid>  
