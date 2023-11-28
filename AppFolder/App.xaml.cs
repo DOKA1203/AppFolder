@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -67,6 +68,8 @@ namespace AppFolder
         /// Occurs when the application is loading.
         /// </summary>
         private void OnStartup(object sender, StartupEventArgs e) {
+            Util.ConvertPngToIco("C:\\Users\\doka\\AppData\\Local\\AppFolder\\base.png", "C:\\Users\\doka\\AppData\\Local\\AppFolder\\icons\\icon.ico");
+            
             ParseArgs(e.Args);
         }
 
@@ -88,13 +91,10 @@ namespace AppFolder
             // For more info see https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?view=windowsdesktop-6.0
         }
         
-        private async void ParseArgs(string[] args)
-        {
+        private async void ParseArgs(string[] args) {
             string localApplicationData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AppFolder");
-            //MessageBox.Show($"{localApplicationData}");
 
-            if (!Directory.Exists(localApplicationData))
-            {
+            if (!Directory.Exists(localApplicationData)) {
                 Directory.CreateDirectory(localApplicationData);
 
                 Util.getConfig();
@@ -102,38 +102,38 @@ namespace AppFolder
 
             string foldersPath = Path.Combine(localApplicationData, "folders");
 
-            if (!Directory.Exists(foldersPath))
-            {
+            if (!Directory.Exists(foldersPath)) {
                 Directory.CreateDirectory(foldersPath);
             }
 
-            if (args.Length == 0)
-            {
+            if (args.Length == 0) {
                 await _host.StartAsync();
+                return;
             }
-            else if (args.Length == 1)
-            {
+            else if (args.Length == 1) {
                 var folderJson = Path.Combine(foldersPath, $"{args[0]}.json");
 
-                if (File.Exists(folderJson))
-                {
+                if (File.Exists(folderJson)) {
                     string jsonString = File.ReadAllText(folderJson);
                     FolderClass f = JsonSerializer.Deserialize<FolderClass>(jsonString);
-                    // Do something with 'f'
-                    
-                    Folder folder = new Folder();
+                    Folder folder = new Folder(int.Parse(args[0]));
+                    folder.Show();
                 }
+                return;
             }
-            else if (args.Length == 2)
-            {
+            else if (args.Length == 2) {
                 string id = args[0];
                 string plus = args[1];
                 // Do something with 'id' and 'plus'
+
+                //Util.BitmapSourceToPngFile(Util.GetIconFromLnk(plus));
+                Util.BitmapSourceToPngFile(Util.GetIconFromLink(plus));
+                
             }
+            Process.GetCurrentProcess().Kill();
         }
     }
-    public class FolderClass
-    {
+    public class FolderClass {
         public int id { get; set; }
         public string name { get; set; }
         public string[] files { get; set; }
