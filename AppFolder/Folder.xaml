@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Mobile App Folder Style" Height="250" Width="300"
         WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent"
+        ShowInTaskbar="False"
         Opacity="0.95">
     <Window.Resources>
         <Style x:Key="WindowStyleNoneStripBar" TargetType="{x:Type Window}">

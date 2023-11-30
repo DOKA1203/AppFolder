@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Interop;
 using AppFolder.Utils;
 
@@ -23,7 +24,7 @@ namespace AppFolder
             Loaded += MainWindow_Loaded;
             Closing += MainWindow_Closing;
 
-            Point pi = CursorPosition.GetCursorPosition();
+            var pi = CursorPosition.GetCursorPosition();
 
             folderClass = Util.getFolder(id);
             
@@ -33,12 +34,16 @@ namespace AppFolder
             Left = Math.Min(pi.X, SystemParameters.WorkArea.Right - Width);
             Top = Math.Min(pi.Y, SystemParameters.WorkArea.Bottom - Height);
             
+            
+            Binding b = new Binding();
+            b.Path = new PropertyPath("files");
+            
         }
-        private HookProc hookProcDelegate;
+        private HookProc _hookProcDelegate;
         private void MainWindow_Loaded(object sender, RoutedEventArgs e) {
             hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
             if (hwndSource != null) {
-                hookProcDelegate = HookCallback;
+                _hookProcDelegate = HookCallback;
                 hookId = SetHook();
             }
         }
@@ -50,7 +55,7 @@ namespace AppFolder
         private IntPtr SetHook() {
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule module = curProcess.MainModule) {
-                return SetWindowsHookEx(WH_MOUSE_LL, hookProcDelegate, GetModuleHandle(module.ModuleName), 0);
+                return SetWindowsHookEx(WH_MOUSE_LL, _hookProcDelegate, GetModuleHandle(module.ModuleName), 0);
             }
         }
 
