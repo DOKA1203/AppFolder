@@ -34,7 +34,7 @@ namespace AppFolder.ViewModels.Pages
             {
                 id = lastId + 1,
                 name = "",
-                files = Array.Empty<string>()
+                files = new List<FolderIcon>()
             };
 
             // 객체를 JSON 문자열로 직렬화

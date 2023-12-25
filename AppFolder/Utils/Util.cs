@@ -119,11 +119,11 @@ public class Util
         File.WriteAllText(filePath, jsonString);
         Console.WriteLine("JSON 데이터가 파일에 저장되었습니다.");
     } 
-    public static void BitmapSourceToPngFile(BitmapSource source) {
+    public static void BitmapSourceToPngFile(BitmapSource source, String path) {
         //MessageBox.Show("test");
         var encoder = new PngBitmapEncoder();
         encoder.Frames.Add(BitmapFrame.Create(source));
-        using (var stream = File.Create(Path.Combine(localApplicationData, "temp.png"))) {
+        using (var stream = File.Create(path)) {
             encoder.Save(stream);
         }
     } 

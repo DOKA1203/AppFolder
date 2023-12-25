@@ -68,7 +68,7 @@ namespace AppFolder
         /// Occurs when the application is loading.
         /// </summary>
         private void OnStartup(object sender, StartupEventArgs e) {
-            Util.ConvertPngToIco("C:\\Users\\doka\\AppData\\Local\\AppFolder\\base.png", "C:\\Users\\doka\\AppData\\Local\\AppFolder\\icons\\icon.ico");
+            // Util.ConvertPngToIco("C:\\Users\\doka\\AppData\\Local\\AppFolder\\base.png", "C:\\Users\\doka\\AppData\\Local\\AppFolder\\icons\\icon.ico");
             
             ParseArgs(e.Args);
         }
@@ -91,20 +91,12 @@ namespace AppFolder
             // For more info see https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?view=windowsdesktop-6.0
         }
         
-        private async void ParseArgs(string[] args) {
-            string localApplicationData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AppFolder");
+        private static async void ParseArgs(string[] args) {
+            var localApplicationData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AppFolder");
 
-            if (!Directory.Exists(localApplicationData)) {
-                Directory.CreateDirectory(localApplicationData);
+            var config = Util.getConfig();
 
-                Util.getConfig();
-            }
-
-            string foldersPath = Path.Combine(localApplicationData, "folders");
-
-            if (!Directory.Exists(foldersPath)) {
-                Directory.CreateDirectory(foldersPath);
-            }
+            var foldersPath = Path.Combine(localApplicationData, "folders");
 
             if (args.Length == 0) {
                 await _host.StartAsync();
@@ -114,21 +106,29 @@ namespace AppFolder
                 var folderJson = Path.Combine(foldersPath, $"{args[0]}.json");
 
                 if (File.Exists(folderJson)) {
-                    string jsonString = File.ReadAllText(folderJson);
-                    FolderClass f = JsonSerializer.Deserialize<FolderClass>(jsonString);
-                    Folder folder = new Folder(int.Parse(args[0]));
+                    var jsonString = File.ReadAllText(folderJson);
+                    var f = JsonSerializer.Deserialize<FolderClass>(jsonString);
+                    var folder = new Folder(int.Parse(args[0]));
                     folder.Show();
                 }
                 return;
             }
             else if (args.Length == 2) {
-                string id = args[0];
-                string plus = args[1];
+                var id = args[0];
+                var plus = args[1];
                 // Do something with 'id' and 'plus'
 
                 //Util.BitmapSourceToPngFile(Util.GetIconFromLnk(plus));
-                Util.BitmapSourceToPngFile(Util.GetIconFromLink(plus));
-                
+                Directory.CreateDirectory(Path.Combine(localApplicationData, "icons", id,  Path.GetFileNameWithoutExtension(plus)));
+                Util.BitmapSourceToPngFile(Util.GetIconFromLink(plus), Path.Combine(localApplicationData, "icons", id , Path.GetFileNameWithoutExtension(plus) , "icon.png"));
+                File.Copy(plus, Path.Combine(localApplicationData, "icons", id,  Path.GetFileNameWithoutExtension(plus), Path.GetFileName(plus)), true);
+                var folder = Util.getFolder(int.Parse(id));
+                folder.files.Add(new FolderIcon {
+                    Name = Path.GetFileNameWithoutExtension(plus),
+                    Icon = Path.Combine(localApplicationData, "icons", id , Path.GetFileNameWithoutExtension(plus) , "icon.png"),
+                    Path = Path.Combine(localApplicationData, "icons", id , Path.GetFileNameWithoutExtension(plus) , Path.GetFileName(plus)),
+                });
+                Util.saveFolder(folder);
             }
             Process.GetCurrentProcess().Kill();
         }
@@ -136,10 +136,15 @@ namespace AppFolder
     public class FolderClass {
         public int id { get; set; }
         public string name { get; set; }
-        public string[] files { get; set; }
+        public List<FolderIcon> files { get; set; }
     }
     public class Config
     {
         public int lastId { get; set; }
+    }
+    public class FolderIcon {
+        public string Name { get; set; }
+        public string Icon { get; set; }
+        public string Path { get; set; }
     }
 }

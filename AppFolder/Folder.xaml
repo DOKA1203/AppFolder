@@ -19,8 +19,23 @@
         </Style>
     </Window.Resources>
     <Border CornerRadius="25" BorderBrush="Gray" BorderThickness="2" Padding="6" Background="Gray">  
-        <Grid>  
-            
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ListBox x:Name="lvControl">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <!-- 가로로 배치되도록 StackPanel의 Orientation을 Horizontal로 설정 -->
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="70" Width="100" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Name="{Binding Path}">
+                            <Image Source="{Binding ImagePath}" Width="50" Height="50" />
+                            <TextBlock Text="{Binding Name}" Margin="0 20 0 0" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>  
     </Border>  
 </Window>
