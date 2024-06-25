@@ -20,7 +20,6 @@ namespace AppFolder
                 Directory.CreateDirectory(localApplicationData);
                 Directory.CreateDirectory(foldersPath);
                 Directory.CreateDirectory(iconsPath);
-                AppFolderInstaller.install();
             } 
 
             if (e.Args.Length == 0) {

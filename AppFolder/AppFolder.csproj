@@ -83,7 +83,6 @@
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
         </ApplicationDefinition>
-        <Compile Include="AppFolderInstaller.cs" />
         <Compile Include="Folder.cs" />
         <Compile Include="FolderWindow.xaml.cs">
           <DependentUpon>FolderWindow.xaml</DependentUpon>

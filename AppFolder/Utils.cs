@@ -2,7 +2,9 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using IWshRuntimeLibrary;
@@ -38,18 +40,6 @@ namespace AppFolder {
                 Console.WriteLine($"Error creating shortcut: {ex.Message}");
             }
         }
-
-        public static void DownloadFile(string url, string path) {
-            try {
-                var webClient = new WebClient();
-                webClient.DownloadFile(url, path);
-            }
-            catch (Exception e) {
-                Console.WriteLine(e);
-                Console.ReadLine();
-            }
-        }
-        
         public static BitmapSource GetIconFromLink(string linkPath) {
             if (!File.Exists(linkPath)) {
                 throw new FileNotFoundException("File not found.", linkPath);

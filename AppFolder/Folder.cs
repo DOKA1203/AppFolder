@@ -37,7 +37,7 @@ namespace AppFolder {
                 this.save();
                 Directory.CreateDirectory(Path.Combine(iconsPath, id.ToString()));
                 IconManager.GenerateIcon(id.ToString());
-                Utils.CreateShortcut("D:\\DokaLab\\AppFolder\\AppFolder\\bin\\Debug\\AppFolder.exe", id, "새 앱폴더 " + id);
+                Utils.CreateShortcut(@"C:\Program Files (x86)\AppFolder\AppFolder.exe", id, "새 앱폴더 " + id);
             }
         }
         public void save() {
