@@ -12,7 +12,7 @@ namespace AppFolder {
         static readonly string iconsPath = Path.Combine(localApplicationData, "icons");
 
         public static void GenerateIcon(string id) {
-            ShellExecute(IntPtr.Zero, "open", $@"C:\Program Files (x86)\AppFolder\main.exe", id, "", 1);
+            ShellExecute(IntPtr.Zero, "open", @"C:\Program Files (x86)\AppFolder\main.exe", id, "", 1);
             Thread.Sleep(3000);
         }
 

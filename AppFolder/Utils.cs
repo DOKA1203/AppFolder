@@ -17,12 +17,8 @@ namespace AppFolder {
 
         public static void CreateShortcut(string targetPath,int id, string shortcutName) {
             try {
-                // Create WshShell object
                 var shell = new WshShell();
-
-                // Create shortcut
                 var shortcut = (IWshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), $"{shortcutName}.lnk"));
-                // Set shortcut properties
                 shortcut.TargetPath = targetPath;
                 shortcut.Arguments = id.ToString();
                 shortcut.WorkingDirectory = Path.GetDirectoryName(targetPath); // Optional: Set working directory
@@ -32,9 +28,7 @@ namespace AppFolder {
                 foreach (var ico in icos) {
                     shortcut.IconLocation = ico;
                 }
-                // shortcut.IconLocation = Path.Combine(localApplicationData, "icons", id.ToString(), "icon.ico");
-
-                shortcut.Save(); // Save the shortcut
+                shortcut.Save();
             }
             catch (Exception ex) {
                 Console.WriteLine($"Error creating shortcut: {ex.Message}");
@@ -87,7 +81,7 @@ namespace AppFolder {
             process.StartInfo.UseShellExecute = false;
             process.Start();
 
-            process.StandardInput.WriteLine($@"taskkill /f /im AppFolder.exe");
+            process.StandardInput.WriteLine(@"taskkill /f /im AppFolder.exe");
             process.StandardInput.Flush();
             process.StandardInput.Close();
             process.WaitForExit();
